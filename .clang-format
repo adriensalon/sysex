@@ -1,0 +1,7 @@
+BasedOnStyle: WebKit
+IndentWidth: 4
+Language: Cpp
+BraceWrapping:
+  AfterStruct: false
+  SplitEmptyRecord: false
+SpaceInEmptyBlock: false
