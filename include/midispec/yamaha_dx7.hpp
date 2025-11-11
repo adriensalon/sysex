@@ -6,6 +6,12 @@
 #include <midispec/core/integral.hpp>
 
 namespace midispec {
+
+/// @brief MIDI support for the Yamaha DX7.
+/// To allow SysEx, edit FUNCTION > 8 to show 'SYS INFO AVAIL'.
+/// It can receive SysEx for a patch or a 32 patches bank (entire internal memory).
+/// It can only send the current 32 patches bank by editing FUNCTION > 8 to show 'MIDI TRANSMIT?'.
+/// A workaround by sending these commands from SysEx is demonstrated in the 'test/test_yamaha_dx7.cpp' file.
 namespace yamaha_dx7 {
 
     /// @brief Keyboard level-scaling curve used by each operator.
@@ -112,11 +118,14 @@ namespace yamaha_dx7 {
         std::array<char, 10> patch_name;
     };
 
-    /// @brief SysEx support for the Yamaha DX7.
-    /// To allow SysEx, edit FUNCTION > 8 to show 'SYS INFO AVAIL'.
-    /// It can receive SysEx for a patch or a 32 patches bank (entire internal memory).
-    /// It can only send the current 32 patches bank by editing FUNCTION > 8 to show 'MIDI TRANSMIT?'.
-    /// A workaround by sending these commands from SysEx is demonstrated in the 'test/test_yamaha_dx7.cpp' file.
+    namespace channel_voice {
+
+    }
+
+    namespace system_common {
+
+    }
+
     namespace system_exclusive {
 
         /// @brief Encodes an operator envelope generator rate 1 (attack rate) parameter change message.
@@ -844,8 +853,12 @@ namespace yamaha_dx7 {
         /// @return true on success; false if format or checksum is invalid
         bool decode_bank(
             const std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device,
+            integral<std::uint8_t, 0, 15>& device,
             std::array<patch, 32>& data);
+
+    }
+
+    namespace system_realtime {
 
     }
 }

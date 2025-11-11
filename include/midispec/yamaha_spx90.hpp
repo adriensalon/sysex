@@ -7,6 +7,10 @@
 #include <midispec/core/integral.hpp>
 
 namespace midispec {
+    
+/// @brief MIDI support for the Yamaha DX7.
+/// To reveive SysEx from the hardware internal wiring to MIDI THRU and MIDI OUT
+/// must be switched by opening and modifying the hardware.
 namespace yamaha_spx90 {
 
     enum struct lfo_waveform : std::uint8_t {
@@ -173,43 +177,74 @@ namespace yamaha_spx90 {
     };
 
     namespace channel_voice {
-        
+
+        /// @brief 
+        /// @param encoded 
+        /// @param channel 
+        /// @param data 
+        void encode_program_change(
+            std::vector<std::uint8_t>& encoded,
+            const integral<std::uint8_t, 0, 15> channel,
+            const integral<std::uint8_t, 0, 127> data);
+
+        /// @brief 
+        /// Only affects PITCH CHANGE and FREEZE B programs.
+        /// @param encoded 
+        /// @param channel 
+        /// @param data 
+        void encode_note_off(
+            std::vector<std::uint8_t>& encoded,
+            const integral<std::uint8_t, 0, 15> channel,
+            const integral<std::uint8_t, 0, 127> data);
+
+        /// @brief 
+        /// Only affects PITCH CHANGE and FREEZE B programs.
+        /// @param encoded 
+        /// @param channel 
+        /// @param data 
+        void encode_note_on(
+            std::vector<std::uint8_t>& encoded,
+            const integral<std::uint8_t, 0, 15> channel,
+            const integral<std::uint8_t, 0, 127> data);
     }
 
     namespace system_exclusive {
 
-        void encode_parameters_request(
-            std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device,
-            integral<std::uint8_t, 1, 4> bank_slot,
-            integral<std::uint8_t, 1, 30> program_slot);
-
-        void encode_program_request(
-            std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device,
-            integral<std::uint8_t, 1, 4> bank_slot,
-            integral<std::uint8_t, 1, 30> program_slot);
-
+        /// @brief 
+        /// Corrresponds to the b-3 spec in the user manual
+        /// @param encoded 
+        /// @param device 
+        /// @param bank 
         void encode_bank_request(
             std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device);
-
-        void decode_parameters(
-            const std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
-            const integral<std::uint8_t, 0, 15> slot,
+            const integral<std::uint8_t, 0, 3> bank);
+
+        /// @brief 
+        /// Corrresponds to the b-1 spec in the user manual
+        /// @param encoded 
+        /// @param device 
+        /// @param slot 
+        /// @param data 
+        /// @return 
+        bool decode_parameters(
+            const std::vector<std::uint8_t>& encoded,
+            integral<std::uint8_t, 0, 15>& device,
+            integral<std::uint8_t, 0, 89>& slot,
             program_parameters& data);
 
-        void decode_program(
+        /// @brief 
+        /// Corrresponds to the b-2 spec in the user manual
+        /// @param encoded 
+        /// @param device 
+        /// @param bank 
+        /// @param data 
+        /// @return 
+        bool decode_bank(
             const std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device,
-            const integral<std::uint8_t, 0, 15> slot,
-            program& data);
-
-        void decode_bank(
-            const std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device,
-            std::array<program, 128>& data);
+            integral<std::uint8_t, 0, 15>& device,
+            integral<std::uint8_t, 0, 3>& bank,
+            std::array<program, 30>& data);
     }
 }
 }

@@ -5,149 +5,149 @@
 
 namespace midispec {
 namespace yamaha_dx7 {
-    namespace {
-
-        static constexpr std::uint8_t SYSEX_START = 0xF0;
-        static constexpr std::uint8_t SYSEX_END = 0xF7;
-        static constexpr std::uint8_t SYSEX_YAMAHA_ID = 0x43;
-
-        static constexpr std::uint8_t SYSEX_GROUP_VOICE = 0;
-        static constexpr std::uint8_t SYSEX_GROUP_FUNCTION = 2;
-
-        static constexpr std::uint8_t SYSEX_VOICE_OP_BLOCK_STRIDE = 21;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_1 = 0;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_2 = 1;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_3 = 2;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_4 = 3;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_1 = 4;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_2 = 5;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_3 = 6;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_4 = 7;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_BREAKPOINT = 8;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_LEFT_DEPTH = 9;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_RIGHT_DEPTH = 10;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_LEFT_CURVE = 11;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_RIGHT_CURVE = 12;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_RATE = 13;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_AMPLITUDE_MODULATION_SENSITIVITY = 14;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_VELOCITY_SENSITIVITY = 15;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_OUTPUT_LEVEL = 16;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_MODE = 17;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_COARSE = 18;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_FINE = 19;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_DETUNE = 20;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_1 = 126;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_2 = 127;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_3 = 128;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_4 = 129;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_1 = 130;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_2 = 131;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_3 = 132;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_4 = 133;
-        static constexpr std::uint8_t SYSEX_VOICE_ALGORITHM_MODE = 134;
-        static constexpr std::uint8_t SYSEX_VOICE_ALGORITHM_FEEDBACK = 135;
-        static constexpr std::uint8_t SYSEX_VOICE_OSCILLATOR_KEY_SYNC = 136;
-        static constexpr std::uint8_t SYSEX_VOICE_LFO_SPEED = 137;
-        static constexpr std::uint8_t SYSEX_VOICE_LFO_DELAY = 138;
-        static constexpr std::uint8_t SYSEX_VOICE_LFO_PITCH_MODULATION_DEPTH = 139;
-        static constexpr std::uint8_t SYSEX_VOICE_LFO_AMPLITUDE_MODULATION_DEPTH = 140;
-        static constexpr std::uint8_t SYSEX_VOICE_LFO_SYNC = 141;
-        static constexpr std::uint8_t SYSEX_VOICE_LFO_WAVEFORM = 142;
-        static constexpr std::uint8_t SYSEX_VOICE_PITCH_MODULATION_SENSITIVITY = 143;
-        static constexpr std::uint8_t SYSEX_VOICE_TRANSPOSE = 144;
-        static constexpr std::uint8_t SYSEX_VOICE_VOICE_NAME_1 = 145;
-        static constexpr std::uint8_t SYSEX_VOICE_VOICE_NAME_10 = 154;
-        static constexpr std::uint8_t SYSEX_VOICE_OP_ENABLE_MASK = 155;
-
-        static constexpr std::uint8_t SYSEX_GLOBAL_MONO_POLY_MODE = 64;
-        static constexpr std::uint8_t SYSEX_GLOBAL_PITCH_BEND_RANGE = 65;
-        static constexpr std::uint8_t SYSEX_GLOBAL_PITCH_BEND_STEP = 66;
-        static constexpr std::uint8_t SYSEX_GLOBAL_PORTAMENTO_MODE = 67;
-        static constexpr std::uint8_t SYSEX_GLOBAL_PORTAMENTO_GLISSANDO = 68;
-        static constexpr std::uint8_t SYSEX_GLOBAL_PORTAMENTO_TIME = 69;
-        static constexpr std::uint8_t SYSEX_GLOBAL_MODULATION_WHEEL_RANGE = 70;
-        static constexpr std::uint8_t SYSEX_GLOBAL_MODULATION_WHEEL_ASSIGN = 71;
-        static constexpr std::uint8_t SYSEX_GLOBAL_FOOT_CONTROLLER_RANGE = 72;
-        static constexpr std::uint8_t SYSEX_GLOBAL_FOOT_CONTROLLER_ASSIGN = 73;
-        static constexpr std::uint8_t SYSEX_GLOBAL_BREATH_CONTROLLER_RANGE = 74;
-        static constexpr std::uint8_t SYSEX_GLOBAL_BREATH_CONTROLLER_ASSIGN = 75;
-        static constexpr std::uint8_t SYSEX_GLOBAL_AFTER_TOUCH_RANGE = 76;
-        static constexpr std::uint8_t SYSEX_GLOBAL_AFTER_TOUCH_ASSIGN = 77;
-
-        static constexpr std::uint8_t SYSEX_BUTTON_1 = 0x00;
-        static constexpr std::uint8_t SYSEX_BUTTON_STORE = 0x20;
-        static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_PROTECT_INTERNAL = 0x21;
-        static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_PROTECT_CARTRIDGE = 0x22;
-        static constexpr std::uint8_t SYSEX_BUTTON_OPERATOR_SELECT = 0x23;
-        static constexpr std::uint8_t SYSEX_BUTTON_EDIT_COMPARE = 0x24;
-        static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_SELECT_INTERNAL = 0x25;
-        static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_SELECT_CARTRIDGE = 0x26;
-        static constexpr std::uint8_t SYSEX_BUTTON_FUNCTION = 0x27;
-        static constexpr std::uint8_t SYSEX_BUTTON_NO = 0x28;
-        static constexpr std::uint8_t SYSEX_BUTTON_YES = 0x29;
-
-        static constexpr std::uint8_t SYSEX_VCED_SINGLE = 0x00;
-        static constexpr std::uint8_t SYSEX_VCED_LENGTH_HIGH = 0x01;
-        static constexpr std::uint8_t SYSEX_VCED_LENGTH_LOW = 0x1B;
-
-        static constexpr std::uint8_t SYSEX_VMEM_BANK = 0x09;
-        static constexpr std::uint8_t SYSEX_VMEM_LENGTH_HIGH = 0x20;
-        static constexpr std::uint8_t SYSEX_VMEM_LENGTH_LOW = 0x00;
-
-        static std::uint8_t checksum7(const std::uint8_t* data, const std::size_t length)
-        {
-            std::uint32_t _sum = 0;
-            for (std::size_t _index = 0; _index < length; ++_index) {
-                _sum += (data[_index] & 0x7F);
-            }
-            return (128 - (_sum & 0x7F)) & 0x7F;
-        }
-
-        static void append_param_change(std::vector<std::uint8_t>& encoded, const std::uint8_t device, const std::uint8_t group, const std::uint16_t parameter, const std::uint8_t value)
-        {
-            const std::uint8_t _parameter_high = (parameter >> 7) & 0x01;
-            const std::uint8_t _parameter_low = parameter & 0x7F;
-            const std::uint8_t _group_and_high = ((group & 0x1F) << 2) | (_parameter_high & 0x03);
-
-            encoded.push_back(SYSEX_START);
-            encoded.push_back(SYSEX_YAMAHA_ID);
-            encoded.push_back(0x10 | (device & 0x0F));
-            encoded.push_back(_group_and_high);
-            encoded.push_back(_parameter_low);
-            encoded.push_back(value & 0x7F);
-            encoded.push_back(SYSEX_END);
-        }
-
-        static void append_button(std::vector<std::uint8_t>& encoded, const std::uint8_t device, const std::uint8_t button, const bool press)
-        {
-            encoded.push_back(SYSEX_START);
-            encoded.push_back(SYSEX_YAMAHA_ID);
-            encoded.push_back(0x10 | (device & 0x0F));
-            encoded.push_back(0x08);
-            encoded.push_back(button & 0x7F);
-            encoded.push_back(press ? 0x7F : 0x00);
-            encoded.push_back(SYSEX_END);
-        }
-
-        static void append_bulk_header(std::vector<std::uint8_t>& encoded, const std::uint8_t device, const std::uint8_t group, const std::uint8_t length_high, const std::uint8_t length_low)
-        {
-            encoded.push_back(SYSEX_START);
-            encoded.push_back(SYSEX_YAMAHA_ID);
-            encoded.push_back(0x00 | (device & 0x0F));
-            encoded.push_back(group & 0x7F);
-            encoded.push_back(length_high & 0x7F);
-            encoded.push_back(length_low & 0x7F);
-        }
-
-        static void append_bulk_finish(std::vector<std::uint8_t>& encoded, const std::uint8_t* payload, const std::size_t payload_length)
-        {
-            encoded.insert(encoded.end(), payload, payload + payload_length);
-            encoded.push_back(checksum7(payload, payload_length) & 0x7F);
-            encoded.push_back(SYSEX_END);
-        }
-    }
 
     namespace system_exclusive {
+
+        namespace {
+            static constexpr std::uint8_t SYSEX_START = 0xF0;
+            static constexpr std::uint8_t SYSEX_END = 0xF7;
+            static constexpr std::uint8_t SYSEX_YAMAHA = 0x43;
+
+            static constexpr std::uint8_t SYSEX_GROUP_VOICE = 0;
+            static constexpr std::uint8_t SYSEX_GROUP_FUNCTION = 2;
+
+            static constexpr std::uint8_t SYSEX_VOICE_OP_BLOCK_STRIDE = 21;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_1 = 0;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_2 = 1;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_3 = 2;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_RATE_4 = 3;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_1 = 4;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_2 = 5;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_3 = 6;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENVELOPE_GENERATOR_LEVEL_4 = 7;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_BREAKPOINT = 8;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_LEFT_DEPTH = 9;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_RIGHT_DEPTH = 10;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_LEFT_CURVE = 11;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_RIGHT_CURVE = 12;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_KEYBOARD_SCALING_RATE = 13;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_AMPLITUDE_MODULATION_SENSITIVITY = 14;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_VELOCITY_SENSITIVITY = 15;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_OUTPUT_LEVEL = 16;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_MODE = 17;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_COARSE = 18;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_FINE = 19;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_OSCILLATOR_DETUNE = 20;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_1 = 126;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_2 = 127;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_3 = 128;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_RATE_4 = 129;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_1 = 130;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_2 = 131;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_3 = 132;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_ENVELOPE_LEVEL_4 = 133;
+            static constexpr std::uint8_t SYSEX_VOICE_ALGORITHM_MODE = 134;
+            static constexpr std::uint8_t SYSEX_VOICE_ALGORITHM_FEEDBACK = 135;
+            static constexpr std::uint8_t SYSEX_VOICE_OSCILLATOR_KEY_SYNC = 136;
+            static constexpr std::uint8_t SYSEX_VOICE_LFO_SPEED = 137;
+            static constexpr std::uint8_t SYSEX_VOICE_LFO_DELAY = 138;
+            static constexpr std::uint8_t SYSEX_VOICE_LFO_PITCH_MODULATION_DEPTH = 139;
+            static constexpr std::uint8_t SYSEX_VOICE_LFO_AMPLITUDE_MODULATION_DEPTH = 140;
+            static constexpr std::uint8_t SYSEX_VOICE_LFO_SYNC = 141;
+            static constexpr std::uint8_t SYSEX_VOICE_LFO_WAVEFORM = 142;
+            static constexpr std::uint8_t SYSEX_VOICE_PITCH_MODULATION_SENSITIVITY = 143;
+            static constexpr std::uint8_t SYSEX_VOICE_TRANSPOSE = 144;
+            static constexpr std::uint8_t SYSEX_VOICE_VOICE_NAME_1 = 145;
+            static constexpr std::uint8_t SYSEX_VOICE_VOICE_NAME_10 = 154;
+            static constexpr std::uint8_t SYSEX_VOICE_OP_ENABLE_MASK = 155;
+
+            static constexpr std::uint8_t SYSEX_GLOBAL_MONO_POLY_MODE = 64;
+            static constexpr std::uint8_t SYSEX_GLOBAL_PITCH_BEND_RANGE = 65;
+            static constexpr std::uint8_t SYSEX_GLOBAL_PITCH_BEND_STEP = 66;
+            static constexpr std::uint8_t SYSEX_GLOBAL_PORTAMENTO_MODE = 67;
+            static constexpr std::uint8_t SYSEX_GLOBAL_PORTAMENTO_GLISSANDO = 68;
+            static constexpr std::uint8_t SYSEX_GLOBAL_PORTAMENTO_TIME = 69;
+            static constexpr std::uint8_t SYSEX_GLOBAL_MODULATION_WHEEL_RANGE = 70;
+            static constexpr std::uint8_t SYSEX_GLOBAL_MODULATION_WHEEL_ASSIGN = 71;
+            static constexpr std::uint8_t SYSEX_GLOBAL_FOOT_CONTROLLER_RANGE = 72;
+            static constexpr std::uint8_t SYSEX_GLOBAL_FOOT_CONTROLLER_ASSIGN = 73;
+            static constexpr std::uint8_t SYSEX_GLOBAL_BREATH_CONTROLLER_RANGE = 74;
+            static constexpr std::uint8_t SYSEX_GLOBAL_BREATH_CONTROLLER_ASSIGN = 75;
+            static constexpr std::uint8_t SYSEX_GLOBAL_AFTER_TOUCH_RANGE = 76;
+            static constexpr std::uint8_t SYSEX_GLOBAL_AFTER_TOUCH_ASSIGN = 77;
+
+            static constexpr std::uint8_t SYSEX_BUTTON_1 = 0x00;
+            static constexpr std::uint8_t SYSEX_BUTTON_STORE = 0x20;
+            static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_PROTECT_INTERNAL = 0x21;
+            static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_PROTECT_CARTRIDGE = 0x22;
+            static constexpr std::uint8_t SYSEX_BUTTON_OPERATOR_SELECT = 0x23;
+            static constexpr std::uint8_t SYSEX_BUTTON_EDIT_COMPARE = 0x24;
+            static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_SELECT_INTERNAL = 0x25;
+            static constexpr std::uint8_t SYSEX_BUTTON_MEMORY_SELECT_CARTRIDGE = 0x26;
+            static constexpr std::uint8_t SYSEX_BUTTON_FUNCTION = 0x27;
+            static constexpr std::uint8_t SYSEX_BUTTON_NO = 0x28;
+            static constexpr std::uint8_t SYSEX_BUTTON_YES = 0x29;
+
+            static constexpr std::uint8_t SYSEX_VCED_SINGLE = 0x00;
+            static constexpr std::uint8_t SYSEX_VCED_LENGTH_HIGH = 0x01;
+            static constexpr std::uint8_t SYSEX_VCED_LENGTH_LOW = 0x1B;
+
+            static constexpr std::uint8_t SYSEX_VMEM_BANK = 0x09;
+            static constexpr std::uint8_t SYSEX_VMEM_LENGTH_HIGH = 0x20;
+            static constexpr std::uint8_t SYSEX_VMEM_LENGTH_LOW = 0x00;
+
+            static std::uint8_t checksum7(const std::uint8_t* data, const std::size_t length)
+            {
+                std::uint32_t _sum = 0;
+                for (std::size_t _index = 0; _index < length; ++_index) {
+                    _sum += (data[_index] & 0x7F);
+                }
+                return (128 - (_sum & 0x7F)) & 0x7F;
+            }
+
+            static void append_param_change(std::vector<std::uint8_t>& encoded, const std::uint8_t device, const std::uint8_t group, const std::uint16_t parameter, const std::uint8_t value)
+            {
+                const std::uint8_t _parameter_high = (parameter >> 7) & 0x01;
+                const std::uint8_t _parameter_low = parameter & 0x7F;
+                const std::uint8_t _group_and_high = ((group & 0x1F) << 2) | (_parameter_high & 0x03);
+
+                encoded.push_back(SYSEX_START);
+                encoded.push_back(SYSEX_YAMAHA);
+                encoded.push_back(0x10 | (device & 0x0F));
+                encoded.push_back(_group_and_high);
+                encoded.push_back(_parameter_low);
+                encoded.push_back(value & 0x7F);
+                encoded.push_back(SYSEX_END);
+            }
+
+            static void append_button(std::vector<std::uint8_t>& encoded, const std::uint8_t device, const std::uint8_t button, const bool press)
+            {
+                encoded.push_back(SYSEX_START);
+                encoded.push_back(SYSEX_YAMAHA);
+                encoded.push_back(0x10 | (device & 0x0F));
+                encoded.push_back(0x08);
+                encoded.push_back(button & 0x7F);
+                encoded.push_back(press ? 0x7F : 0x00);
+                encoded.push_back(SYSEX_END);
+            }
+
+            static void append_bulk_header(std::vector<std::uint8_t>& encoded, const std::uint8_t device, const std::uint8_t group, const std::uint8_t length_high, const std::uint8_t length_low)
+            {
+                encoded.push_back(SYSEX_START);
+                encoded.push_back(SYSEX_YAMAHA);
+                encoded.push_back(0x00 | (device & 0x0F));
+                encoded.push_back(group & 0x7F);
+                encoded.push_back(length_high & 0x7F);
+                encoded.push_back(length_low & 0x7F);
+            }
+
+            static void append_bulk_finish(std::vector<std::uint8_t>& encoded, const std::uint8_t* payload, const std::size_t payload_length)
+            {
+                encoded.insert(encoded.end(), payload, payload + payload_length);
+                encoded.push_back(checksum7(payload, payload_length) & 0x7F);
+                encoded.push_back(SYSEX_END);
+            }
+        }
 
         void encode_op_envelope_generator_rate_1(
             std::vector<std::uint8_t>& encoded,
@@ -835,10 +835,10 @@ namespace yamaha_dx7 {
 
         bool decode_bank(
             const std::vector<std::uint8_t>& encoded,
-            const integral<std::uint8_t, 0, 15> device,
+            integral<std::uint8_t, 0, 15>& device,
             std::array<patch, 32>& data)
         {
-            if (encoded.size() < 8 || encoded[0] != SYSEX_START || encoded[1] != SYSEX_YAMAHA_ID || encoded.back() != SYSEX_END) {
+            if (encoded.size() < 8 || encoded[0] != SYSEX_START || encoded[1] != SYSEX_YAMAHA || encoded.back() != SYSEX_END) {
                 std::cerr << "Invalid source encoded data" << std::endl;
                 return false;
             }
@@ -933,6 +933,7 @@ namespace yamaha_dx7 {
                 }
             }
 
+            device = encoded[2] & 0x0F;
             return true;
         }
 

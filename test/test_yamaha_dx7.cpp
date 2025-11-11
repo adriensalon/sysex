@@ -43,6 +43,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t> _sent;
             std::vector<std::uint8_t> _received;
             std::array<patch, 32> _bank;
+            integral<std::uint8_t, 0, 15> _received_device;
 
             system_exclusive::encode_button_function(_sent, device, true);
             send(_sent);
@@ -64,7 +65,8 @@ namespace yamaha_dx7 {
             send(_sent);
 
             receive(_received);
-            EXPECT_TRUE(system_exclusive::decode_bank(_received, device, _bank));
+            EXPECT_TRUE(system_exclusive::decode_bank(_received, _received_device, _bank));
+            EXPECT_EQ(device, _received_device);
             data = _bank[voice.value()];
         }
     };
