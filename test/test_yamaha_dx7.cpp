@@ -132,7 +132,7 @@ namespace yamaha_dx7 {
 
         static bool operator==(const patch& first, const patch& second)
         {
-            return (first.op_envelope_generator_rate_1 == second.op_envelope_generator_rate_1) && (first.op_envelope_generator_rate_2 == second.op_envelope_generator_rate_2) && (first.op_envelope_generator_rate_3 == second.op_envelope_generator_rate_3) && (first.op_envelope_generator_rate_4 == second.op_envelope_generator_rate_4) && (first.op_envelope_generator_level_1 == second.op_envelope_generator_level_1) && (first.op_envelope_generator_level_2 == second.op_envelope_generator_level_2) && (first.op_envelope_generator_level_3 == second.op_envelope_generator_level_3) && (first.op_envelope_generator_level_4 == second.op_envelope_generator_level_4) && (first.op_keyboard_scaling_breakpoint == second.op_keyboard_scaling_breakpoint) && (first.op_keyboard_scaling_left_depth == second.op_keyboard_scaling_left_depth) && (first.op_keyboard_scaling_right_depth == second.op_keyboard_scaling_right_depth) && (first.op_keyboard_scaling_left_curve == second.op_keyboard_scaling_left_curve) && (first.op_keyboard_scaling_right_curve == second.op_keyboard_scaling_right_curve) && (first.op_keyboard_scaling_rate == second.op_keyboard_scaling_rate) && (first.op_amplitude_modulation_sensitivity == second.op_amplitude_modulation_sensitivity) && (first.op_velocity_sensitivity == second.op_velocity_sensitivity) && (first.op_output_level == second.op_output_level) && (first.op_oscillator_mode == second.op_oscillator_mode) && (first.op_oscillator_coarse == second.op_oscillator_coarse) && (first.op_oscillator_fine == second.op_oscillator_fine) && (first.op_oscillator_detune == second.op_oscillator_detune) && (first.pitch_envelope_rate_1 == second.pitch_envelope_rate_1) && (first.pitch_envelope_rate_2 == second.pitch_envelope_rate_2) && (first.pitch_envelope_rate_3 == second.pitch_envelope_rate_3) && (first.pitch_envelope_rate_4 == second.pitch_envelope_rate_4) && (first.pitch_envelope_level_1 == second.pitch_envelope_level_1) && (first.pitch_envelope_level_2 == second.pitch_envelope_level_2) && (first.pitch_envelope_level_3 == second.pitch_envelope_level_3) && (first.pitch_envelope_level_4 == second.pitch_envelope_level_4) && (first.algorithm_mode == second.algorithm_mode) && (first.algorithm_feedback == second.algorithm_feedback) && (first.oscillator_key_sync == second.oscillator_key_sync) && (first.lfo_waveform == second.lfo_waveform) && (first.lfo_speed == second.lfo_speed) && (first.lfo_delay == second.lfo_delay) && (first.lfo_pitch_modulation_depth == second.lfo_pitch_modulation_depth) && (first.lfo_amplitude_modulation_depth == second.lfo_amplitude_modulation_depth) && (first.lfo_sync == second.lfo_sync) && (first.pitch_modulation_sensitivity == second.pitch_modulation_sensitivity) && (first.transpose_semitones == second.transpose_semitones) && (first.patch_name == second.patch_name);
+            return (first.op_envelope_generator_rate_1 == second.op_envelope_generator_rate_1) && (first.op_envelope_generator_rate_2 == second.op_envelope_generator_rate_2) && (first.op_envelope_generator_rate_3 == second.op_envelope_generator_rate_3) && (first.op_envelope_generator_rate_4 == second.op_envelope_generator_rate_4) && (first.op_envelope_generator_level_1 == second.op_envelope_generator_level_1) && (first.op_envelope_generator_level_2 == second.op_envelope_generator_level_2) && (first.op_envelope_generator_level_3 == second.op_envelope_generator_level_3) && (first.op_envelope_generator_level_4 == second.op_envelope_generator_level_4) && (first.op_keyboard_scaling_breakpoint == second.op_keyboard_scaling_breakpoint) && (first.op_keyboard_scaling_left_depth == second.op_keyboard_scaling_left_depth) && (first.op_keyboard_scaling_right_depth == second.op_keyboard_scaling_right_depth) && (first.op_keyboard_scaling_left_curve == second.op_keyboard_scaling_left_curve) && (first.op_keyboard_scaling_right_curve == second.op_keyboard_scaling_right_curve) && (first.op_keyboard_scaling_rate == second.op_keyboard_scaling_rate) && (first.op_amplitude_modulation_sensitivity == second.op_amplitude_modulation_sensitivity) && (first.op_velocity_sensitivity == second.op_velocity_sensitivity) && (first.op_output_level == second.op_output_level) && (first.op_oscillator_mode == second.op_oscillator_mode) && (first.op_oscillator_coarse == second.op_oscillator_coarse) && (first.op_oscillator_fine == second.op_oscillator_fine) && (first.op_oscillator_detune == second.op_oscillator_detune) && (first.pitch_envelope_rate_1 == second.pitch_envelope_rate_1) && (first.pitch_envelope_rate_2 == second.pitch_envelope_rate_2) && (first.pitch_envelope_rate_3 == second.pitch_envelope_rate_3) && (first.pitch_envelope_rate_4 == second.pitch_envelope_rate_4) && (first.pitch_envelope_level_1 == second.pitch_envelope_level_1) && (first.pitch_envelope_level_2 == second.pitch_envelope_level_2) && (first.pitch_envelope_level_3 == second.pitch_envelope_level_3) && (first.pitch_envelope_level_4 == second.pitch_envelope_level_4) && (first.algorithm_mode == second.algorithm_mode) && (first.algorithm_feedback == second.algorithm_feedback) && (first.oscillator_key_sync == second.oscillator_key_sync) && (first.lfo_waveform_mode == second.lfo_waveform_mode) && (first.lfo_speed == second.lfo_speed) && (first.lfo_delay == second.lfo_delay) && (first.lfo_pitch_modulation_depth == second.lfo_pitch_modulation_depth) && (first.lfo_amplitude_modulation_depth == second.lfo_amplitude_modulation_depth) && (first.lfo_sync == second.lfo_sync) && (first.pitch_modulation_sensitivity == second.pitch_modulation_sensitivity) && (first.transpose_semitones == second.transpose_semitones) && (first.patch_name == second.patch_name);
         }
 
         static bool operator!=(const patch& first, const patch& second)
@@ -553,12 +553,12 @@ namespace yamaha_dx7 {
             integral<std::uint8_t, 0, 15> _device = 0;
             integral<std::uint8_t, 0, 5> _op;
             integral<std::uint8_t, 0, 31> _voice;
-            op_keyboard_scaling_curve _data;
+            keyboard_scaling_curve _data;
             patch _voice_data;
 
             _op = _op.min_value;
             _voice = _voice.min_value;
-            _data = op_keyboard_scaling_curve::negative_linear;
+            _data = keyboard_scaling_curve::negative_linear;
             encode_op_keyboard_scaling_left_curve(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -567,7 +567,7 @@ namespace yamaha_dx7 {
 
             _op = _op.from_random(random_device);
             _voice = _voice.from_random(random_device);
-            _data = op_keyboard_scaling_curve::negative_exponential;
+            _data = keyboard_scaling_curve::negative_exponential;
             encode_op_keyboard_scaling_left_curve(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -576,7 +576,7 @@ namespace yamaha_dx7 {
 
             _op = _op.max_value;
             _voice = _voice.max_value;
-            _data = op_keyboard_scaling_curve::positive_exponential;
+            _data = keyboard_scaling_curve::positive_exponential;
             encode_op_keyboard_scaling_left_curve(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -590,12 +590,12 @@ namespace yamaha_dx7 {
             integral<std::uint8_t, 0, 15> _device = 0;
             integral<std::uint8_t, 0, 5> _op;
             integral<std::uint8_t, 0, 31> _voice;
-            op_keyboard_scaling_curve _data;
+            keyboard_scaling_curve _data;
             patch _voice_data;
 
             _op = _op.min_value;
             _voice = _voice.min_value;
-            _data = op_keyboard_scaling_curve::negative_linear;
+            _data = keyboard_scaling_curve::negative_linear;
             encode_op_keyboard_scaling_right_curve(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -604,7 +604,7 @@ namespace yamaha_dx7 {
 
             _op = _op.from_random(random_device);
             _voice = _voice.from_random(random_device);
-            _data = op_keyboard_scaling_curve::negative_exponential;
+            _data = keyboard_scaling_curve::negative_exponential;
             encode_op_keyboard_scaling_right_curve(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -613,7 +613,7 @@ namespace yamaha_dx7 {
 
             _op = _op.max_value;
             _voice = _voice.max_value;
-            _data = op_keyboard_scaling_curve::positive_exponential;
+            _data = keyboard_scaling_curve::positive_exponential;
             encode_op_keyboard_scaling_right_curve(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -769,18 +769,18 @@ namespace yamaha_dx7 {
             EXPECT_EQ(_data, _voice_data.op_output_level[_op.value()]);
         }
 
-        TEST_F(yamaha_dx7, op_oscillator_mode)
+        TEST_F(yamaha_dx7, oscillator_mode)
         {
             std::vector<std::uint8_t> _encoded;
             integral<std::uint8_t, 0, 15> _device = 0;
             integral<std::uint8_t, 0, 5> _op;
             integral<std::uint8_t, 0, 31> _voice;
-            op_oscillator_mode _data;
+            oscillator_mode _data;
             patch _voice_data;
 
             _op = _op.min_value;
             _voice = _voice.min_value;
-            _data = op_oscillator_mode::fixed;
+            _data = oscillator_mode::fixed;
             encode_op_oscillator_mode(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -789,7 +789,7 @@ namespace yamaha_dx7 {
 
             _op = _op.max_value;
             _voice = _voice.max_value;
-            _data = op_oscillator_mode::ratio;
+            _data = oscillator_mode::ratio;
             encode_op_oscillator_mode(_encoded, _device, _op, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
@@ -1268,32 +1268,32 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t> _encoded;
             integral<std::uint8_t, 0, 15> _device = 0;
             integral<std::uint8_t, 0, 31> _voice;
-            lfo_waveform_mode _data;
+            waveform_mode _data;
             patch _voice_data;
 
             _voice = _voice.min_value;
-            _data = lfo_waveform_mode::triangle;
+            _data = waveform_mode::triangle;
             encode_lfo_waveform(_encoded, _device, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
             transmit_bank_read_voice(_device, _voice, _voice_data);
-            EXPECT_EQ(_data, _voice_data.lfo_waveform);
+            EXPECT_EQ(_data, _voice_data.lfo_waveform_mode);
 
             _voice = _voice.from_random(random_device);
-            _data = lfo_waveform_mode::square;
+            _data = waveform_mode::square;
             encode_lfo_waveform(_encoded, _device, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
             transmit_bank_read_voice(_device, _voice, _voice_data);
-            EXPECT_EQ(_data, _voice_data.lfo_waveform);
+            EXPECT_EQ(_data, _voice_data.lfo_waveform_mode);
 
             _voice = _voice.max_value;
-            _data = lfo_waveform_mode::sine;
+            _data = waveform_mode::sine;
             encode_lfo_waveform(_encoded, _device, _data);
             send(_encoded);
             save_to_voice(_device, _voice);
             transmit_bank_read_voice(_device, _voice, _voice_data);
-            EXPECT_EQ(_data, _voice_data.lfo_waveform);
+            EXPECT_EQ(_data, _voice_data.lfo_waveform_mode);
         }
 
         TEST_F(yamaha_dx7, lfo_speed)

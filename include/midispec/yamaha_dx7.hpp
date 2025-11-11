@@ -113,7 +113,7 @@ namespace yamaha_dx7 {
         /// Controls how output level changes left/right of the breakpoint.
         /// See per-value polarity and taper behavior.
         /// In range [0, 3]
-        enum struct op_keyboard_scaling_curve : std::uint8_t {
+        enum struct keyboard_scaling_curve : std::uint8_t {
             /// @brief Negative linear: level decreases linearly as you move away from the breakpoint
             negative_linear = 0,
             /// @brief Positive linear: level increases linearly as you move away from the breakpoint
@@ -127,7 +127,7 @@ namespace yamaha_dx7 {
         /// @brief Operator oscillator frequency mode.
         /// Selects between ratio (pitch follows key) and fixed (absolute frequency) behavior.
         /// In range [0, 1]
-        enum struct op_oscillator_mode : std::uint8_t {
+        enum struct oscillator_mode : std::uint8_t {
             /// @brief Ratio mode: frequency = key pitch × coarse/fine ratio; tracks keyboard pitch
             ratio = 0,
             /// @brief Fixed mode: frequency is absolute; coarse/fine select a fixed Hz value (not key-tracking)
@@ -137,7 +137,7 @@ namespace yamaha_dx7 {
         /// @brief Global LFO waveform selection.
         /// Affects pitch (PM) and amplitude (AM) modulation destinations.
         /// In range [0, 4]
-        enum struct lfo_waveform_mode : std::uint8_t {
+        enum struct waveform_mode : std::uint8_t {
             /// @brief Triangle
             triangle = 0,
             /// @brief Saw down
@@ -181,13 +181,13 @@ namespace yamaha_dx7 {
             std::array<integral<std::uint8_t, 0, 99>, 6> op_keyboard_scaling_breakpoint;
             std::array<integral<std::uint8_t, 0, 99>, 6> op_keyboard_scaling_left_depth;
             std::array<integral<std::uint8_t, 0, 99>, 6> op_keyboard_scaling_right_depth;
-            std::array<op_keyboard_scaling_curve, 6> op_keyboard_scaling_left_curve;
-            std::array<op_keyboard_scaling_curve, 6> op_keyboard_scaling_right_curve;
+            std::array<keyboard_scaling_curve, 6> op_keyboard_scaling_left_curve;
+            std::array<keyboard_scaling_curve, 6> op_keyboard_scaling_right_curve;
             std::array<integral<std::uint8_t, 0, 7>, 6> op_keyboard_scaling_rate;
             std::array<integral<std::uint8_t, 0, 3>, 6> op_amplitude_modulation_sensitivity;
             std::array<integral<std::uint8_t, 0, 7>, 6> op_velocity_sensitivity;
             std::array<integral<std::uint8_t, 0, 99, 99>, 6> op_output_level;
-            std::array<op_oscillator_mode, 6> op_oscillator_mode;
+            std::array<oscillator_mode, 6> op_oscillator_mode;
             std::array<integral<std::uint8_t, 0, 31>, 6> op_oscillator_coarse;
             std::array<integral<std::uint8_t, 0, 99>, 6> op_oscillator_fine;
             std::array<integral<std::uint8_t, 0, 14, 7>, 6> op_oscillator_detune;
@@ -202,7 +202,7 @@ namespace yamaha_dx7 {
             integral<std::uint8_t, 0, 31> algorithm_mode;
             integral<std::uint8_t, 0, 7> algorithm_feedback;
             bool oscillator_key_sync;
-            lfo_waveform_mode lfo_waveform;
+            waveform_mode lfo_waveform_mode;
             integral<std::uint8_t, 0, 99> lfo_speed;
             integral<std::uint8_t, 0, 99> lfo_delay;
             integral<std::uint8_t, 0, 99> lfo_pitch_modulation_depth;
@@ -355,7 +355,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
             const integral<std::uint8_t, 0, 5> op,
-            const op_keyboard_scaling_curve data);
+            const keyboard_scaling_curve data);
 
         /// @brief Encodes an operator keyboard scaling right curve parameter change message.
         /// This parameter applies to the current patch for the selected operator
@@ -367,7 +367,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
             const integral<std::uint8_t, 0, 5> op,
-            const op_keyboard_scaling_curve data);
+            const keyboard_scaling_curve data);
 
         /// @brief Encodes an operator keyboard scaling rate (key rate scaling) parameter change message.
         /// This parameter applies to the current patch for the selected operator
@@ -427,7 +427,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
             const integral<std::uint8_t, 0, 5> op,
-            const op_oscillator_mode data);
+            const oscillator_mode data);
 
         /// @brief Encodes an operator oscillator coarse parameter change message.
         /// This parameter applies to the current patch for the selected operator
@@ -584,7 +584,7 @@ namespace yamaha_dx7 {
         void encode_lfo_waveform(
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
-            const lfo_waveform_mode data);
+            const waveform_mode data);
 
         /// @brief Encodes LFO speed parameter change message.
         /// This parameter applies to the current patch

@@ -377,7 +377,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
             const integral<std::uint8_t, 0, 5> op,
-            const op_keyboard_scaling_curve data)
+            const keyboard_scaling_curve data)
         {
             append_param_change(encoded, device.value(), SYSEX_GROUP_VOICE, (5 - op.value()) * SYSEX_VOICE_OP_BLOCK_STRIDE + SYSEX_VOICE_OP_KEYBOARD_SCALING_LEFT_CURVE, static_cast<std::uint8_t>(data));
         }
@@ -386,7 +386,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
             const integral<std::uint8_t, 0, 5> op,
-            const op_keyboard_scaling_curve data)
+            const keyboard_scaling_curve data)
         {
             append_param_change(encoded, device.value(), SYSEX_GROUP_VOICE, (5 - op.value()) * SYSEX_VOICE_OP_BLOCK_STRIDE + SYSEX_VOICE_OP_KEYBOARD_SCALING_RIGHT_CURVE, static_cast<std::uint8_t>(data));
         }
@@ -431,7 +431,7 @@ namespace yamaha_dx7 {
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
             const integral<std::uint8_t, 0, 5> op,
-            const op_oscillator_mode data)
+            const oscillator_mode data)
         {
             append_param_change(encoded, device.value(), SYSEX_GROUP_VOICE, (5 - op.value()) * SYSEX_VOICE_OP_BLOCK_STRIDE + SYSEX_VOICE_OP_OSCILLATOR_MODE, static_cast<std::uint8_t>(data));
         }
@@ -554,7 +554,7 @@ namespace yamaha_dx7 {
         void encode_lfo_waveform(
             std::vector<std::uint8_t>& encoded,
             const integral<std::uint8_t, 0, 15> device,
-            const lfo_waveform_mode data)
+            const waveform_mode data)
         {
             append_param_change(encoded, device.value(), SYSEX_GROUP_VOICE, SYSEX_VOICE_LFO_WAVEFORM, static_cast<std::uint8_t>(data));
         }
@@ -886,7 +886,7 @@ namespace yamaha_dx7 {
             _voice_ptr[SYSEX_VOICE_LFO_PITCH_MODULATION_DEPTH] = data.lfo_pitch_modulation_depth.value() & 0x7F;
             _voice_ptr[SYSEX_VOICE_LFO_AMPLITUDE_MODULATION_DEPTH] = data.lfo_amplitude_modulation_depth.value() & 0x7F;
             _voice_ptr[SYSEX_VOICE_LFO_SYNC] = data.lfo_sync ? 1u : 0u;
-            _voice_ptr[SYSEX_VOICE_LFO_WAVEFORM] = static_cast<std::uint8_t>(data.lfo_waveform) & 0x07;
+            _voice_ptr[SYSEX_VOICE_LFO_WAVEFORM] = static_cast<std::uint8_t>(data.lfo_waveform_mode) & 0x07;
             _voice_ptr[SYSEX_VOICE_PITCH_MODULATION_SENSITIVITY] = data.pitch_modulation_sensitivity.value() & 0x07;
             _voice_ptr[SYSEX_VOICE_TRANSPOSE] = data.transpose_semitones.value() & 0x7F;
 
@@ -947,7 +947,7 @@ namespace yamaha_dx7 {
                 _voice_ptr[113] = data[_voice_index].lfo_delay.value() & 0x7F;
                 _voice_ptr[114] = data[_voice_index].lfo_pitch_modulation_depth.value() & 0x7F;
                 _voice_ptr[115] = data[_voice_index].lfo_amplitude_modulation_depth.value() & 0x7F;
-                _voice_ptr[116] = ((static_cast<std::uint8_t>(data[_voice_index].lfo_waveform) & 0x07) >> 4) | ((static_cast<std::uint8_t>(data[_voice_index].lfo_sync) & 0x01) >> 3) | (data[_voice_index].pitch_modulation_sensitivity.value() & 0x07);
+                _voice_ptr[116] = ((static_cast<std::uint8_t>(data[_voice_index].lfo_waveform_mode) & 0x07) >> 4) | ((static_cast<std::uint8_t>(data[_voice_index].lfo_sync) & 0x01) >> 3) | (data[_voice_index].pitch_modulation_sensitivity.value() & 0x07);
                 _voice_ptr[117] = data[_voice_index].transpose_semitones.value() & 0x7F;
                 for (std::size_t _char_index = 0; _char_index < 10; ++_char_index) {
                     _voice_ptr[118 + _char_index] = static_cast<std::uint8_t>(data[_voice_index].patch_name[_char_index]) & 0x7F;
@@ -1022,13 +1022,13 @@ namespace yamaha_dx7 {
                     data[_voice_index].op_keyboard_scaling_breakpoint[_op_index] = _op_ptr[8];
                     data[_voice_index].op_keyboard_scaling_left_depth[_op_index] = _op_ptr[9];
                     data[_voice_index].op_keyboard_scaling_right_depth[_op_index] = _op_ptr[10];
-                    data[_voice_index].op_keyboard_scaling_left_curve[_op_index] = static_cast<op_keyboard_scaling_curve>(_op_ptr[11] & 0x03);
-                    data[_voice_index].op_keyboard_scaling_right_curve[_op_index] = static_cast<op_keyboard_scaling_curve>((_op_ptr[11] >> 2) & 0x03);
+                    data[_voice_index].op_keyboard_scaling_left_curve[_op_index] = static_cast<keyboard_scaling_curve>(_op_ptr[11] & 0x03);
+                    data[_voice_index].op_keyboard_scaling_right_curve[_op_index] = static_cast<keyboard_scaling_curve>((_op_ptr[11] >> 2) & 0x03);
                     data[_voice_index].op_keyboard_scaling_rate[_op_index] = _op_ptr[12] & 0x07;
                     data[_voice_index].op_amplitude_modulation_sensitivity[_op_index] = _op_ptr[13] & 0x03;
                     data[_voice_index].op_velocity_sensitivity[_op_index] = (_op_ptr[13] >> 2) & 0x07;
                     data[_voice_index].op_output_level[_op_index] = _op_ptr[14];
-                    data[_voice_index].op_oscillator_mode[_op_index] = static_cast<op_oscillator_mode>(_op_ptr[15] & 0x01);
+                    data[_voice_index].op_oscillator_mode[_op_index] = static_cast<oscillator_mode>(_op_ptr[15] & 0x01);
                     data[_voice_index].op_oscillator_coarse[_op_index] = (_op_ptr[15] >> 1) & 0x1F;
                     data[_voice_index].op_oscillator_fine[_op_index] = _op_ptr[16];
                     data[_voice_index].op_oscillator_detune[_op_index] = (_op_ptr[12] >> 3) & 0x0F;
@@ -1045,7 +1045,7 @@ namespace yamaha_dx7 {
                 data[_voice_index].algorithm_mode = _voice_ptr[110] & 0x7F;
                 data[_voice_index].algorithm_feedback = _voice_ptr[111] & 0x07;
                 data[_voice_index].oscillator_key_sync = static_cast<bool>((_voice_ptr[111] >> 3) & 0x01);
-                data[_voice_index].lfo_waveform = static_cast<lfo_waveform_mode>((_voice_ptr[116] >> 1) & 0x07);
+                data[_voice_index].lfo_waveform_mode = static_cast<waveform_mode>((_voice_ptr[116] >> 1) & 0x07);
                 data[_voice_index].lfo_speed = _voice_ptr[112];
                 data[_voice_index].lfo_delay = _voice_ptr[113];
                 data[_voice_index].lfo_pitch_modulation_depth = _voice_ptr[114];

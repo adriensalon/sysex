@@ -26,3 +26,8 @@ target_link_libraries(midispec_test_yamaha_dx7 PRIVATE midispec_test)
 add_executable(midispec_test_yamaha_spx90 "test/test_yamaha_spx90.cpp")
 set_target_properties(midispec_test_yamaha_spx90 PROPERTIES CXX_STANDARD 17)
 target_link_libraries(midispec_test_yamaha_spx90 PRIVATE midispec_test)
+
+# midispec_test [yamaha tx81z]
+add_executable(midispec_test_yamaha_tx81z "test/test_yamaha_tx81z.cpp")
+set_target_properties(midispec_test_yamaha_tx81z PROPERTIES CXX_STANDARD 17)
+target_link_libraries(midispec_test_yamaha_tx81z PRIVATE midispec_test)
