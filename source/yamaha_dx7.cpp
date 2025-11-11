@@ -59,8 +59,10 @@ namespace yamaha_dx7 {
             if ((encoded[0] & 0xF0) != 0x80) {
                 return false;
             }
+
             channel = encoded[0] & 0x0F;
             note = encoded[1] & 0x7F;
+
             return true;
         }
 
@@ -76,9 +78,11 @@ namespace yamaha_dx7 {
             if ((encoded[0] & 0xF0) != 0x90) {
                 return false;
             }
+
             channel = encoded[0] & 0x0F;
             note = encoded[1] & 0x7F;
             velocity = encoded[2] & 0x7F;
+
             return true;
         }
 
@@ -93,8 +97,10 @@ namespace yamaha_dx7 {
             if ((encoded[0] & 0xF0) != 0xC0) {
                 return false;
             }
+
             channel = encoded[0] & 0x0F;
             program = encoded[1] & 0x7F;
+
             return true;
         }
 
@@ -109,8 +115,10 @@ namespace yamaha_dx7 {
             if ((encoded[0] & 0xF0) != 0xD0) {
                 return false;
             }
+
             channel = encoded[0] & 0x0F;
             pressure = encoded[1] & 0x7F;
+
             return true;
         }
 
@@ -125,8 +133,10 @@ namespace yamaha_dx7 {
             if ((encoded[0] & 0xF0) != 0xE0) {
                 return false;
             }
+
             channel = encoded[0] & 0x0F;
             pitch_bend = ((encoded[2] & 0x7F) << 7) | encoded[1] & 0x7F;
+
             return true;
         }
     }
@@ -227,6 +237,7 @@ namespace yamaha_dx7 {
                 for (std::size_t _index = 0; _index < length; ++_index) {
                     _sum += (data[_index] & 0x7F);
                 }
+
                 return (128 - (_sum & 0x7F)) & 0x7F;
             }
 
@@ -964,13 +975,11 @@ namespace yamaha_dx7 {
             std::array<patch, 32>& data)
         {
             if (encoded.size() < 8 || encoded[0] != SYSEX_START || encoded[1] != SYSEX_YAMAHA || encoded.back() != SYSEX_END) {
-                // std::cerr << "Invalid source encoded data" << std::endl;
                 return false;
             }
 
             const bool _vmem_byte_is_correct = (encoded[2] & 0x70) == 0x00;
             if (!_vmem_byte_is_correct) {
-                // std::cerr << "Invalid vmem byte" << std::endl;
                 return false;
             }
 
@@ -978,26 +987,22 @@ namespace yamaha_dx7 {
             const std::uint8_t _header_length_high = encoded[4] & 0x7F;
             const std::uint8_t _header_length_low = encoded[5] & 0x7F;
             const std::uint8_t _header_payload_offset = 6;
-            const std::size_t _header_payload_length = encoded.size() - 6u /*hdr*/ - 1u /*CS*/ - 1u /*F7*/;
+            const std::size_t _header_payload_length = encoded.size() - 6 - 1 - 1;
             if (_header_payload_length == 0) {
-                // std::cerr << "Invalid payload length" << std::endl;
                 return false;
             }
 
             const std::size_t _checksum_index = encoded.size() - 2;
             const std::uint8_t _checksum_calculation = checksum7(encoded.data() + _header_payload_offset, _header_payload_length);
             if ((encoded[_checksum_index] & 0x7F) != _checksum_calculation) {
-                // std::cerr << "Invalid checksum" << std::endl;
                 return false;
             }
 
             if (_header_group != SYSEX_VMEM_BANK || _header_length_high != SYSEX_VMEM_LENGTH_HIGH || _header_length_low != SYSEX_VMEM_LENGTH_LOW) {
-                // std::cerr << "Invalid constants in bulk header" << std::endl;
                 return false;
             }
 
             if (_header_payload_length != 4096) {
-                // std::cerr << "Invalid payload length" << std::endl;
                 return false;
             }
 
