@@ -8,7 +8,7 @@
 
 namespace midispec {
     
-/// @brief MIDI support for the Yamaha DX7.
+/// @brief MIDI support for the Yamaha SPX90.
 /// To reveive SysEx from the hardware internal wiring to MIDI THRU and MIDI OUT
 /// must be switched by opening and modifying the hardware.
 namespace yamaha_spx90 {
