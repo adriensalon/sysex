@@ -17,9 +17,9 @@
 #error "Define SYSEX_TEST_OUT_MIDIPORT (output port index)"
 #endif
 
-namespace sysex {
+namespace midispec {
 
-/// @brief 
+/// @brief
 struct hardware : public testing::Test {
 
     inline static std::chrono::milliseconds debounce_ms = std::chrono::milliseconds(50);
@@ -145,4 +145,5 @@ private:
     inline static std::deque<std::vector<unsigned char>> s_queue;
     inline static bool s_stop;
 };
+
 }

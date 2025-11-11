@@ -8,7 +8,7 @@
 #include <string>
 #include <type_traits>
 
-namespace sysex {
+namespace midispec {
 
 /// @brief
 /// @tparam T

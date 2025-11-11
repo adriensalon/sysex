@@ -1,69 +1,41 @@
-#include <sysex/yamaha_spx90.hpp>
+#include <midispec/yamaha_spx90.hpp>
 
-namespace sysex {
+/// User manual at
+/// https://archive.org/details/SPX-90_owners_manual/page/n23/mode/2up
+
+namespace midispec {
 namespace yamaha_spx90 {
-
-    void encode_reverb_hall_time(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const integral<std::uint8_t, 0, 99> data)
-    {
+    namespace {
+        // TODO
     }
 
-    void encode_reverb_hall_high_ratio(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const integral<std::uint8_t, 0, 99> data)
-    {
+    namespace channel_voice {
+
     }
 
-    void encode_reverb_hall_high_pre_delay(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const integral<std::uint8_t, 0, 99> data)
-    {
-    }
+    namespace system_exclusive {
 
-    void encode_reverb_hall_high_low_pass_filter(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const integral<std::uint8_t, 0, 99> data)
-    {
-    }
+        void encode_parameters_request(
+            std::vector<std::uint8_t>& encoded,
+            const integral<std::uint8_t, 0, 15> device,
+            integral<std::uint8_t, 1, 4> bank_slot,
+            integral<std::uint8_t, 1, 30> program_slot)
+        {
+        }
 
-    void encode_reverb_hall_balance(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const integral<std::uint8_t, 0, 99, 99> data)
-    {
-    }
+        void encode_program_request(
+            std::vector<std::uint8_t>& encoded,
+            const integral<std::uint8_t, 0, 15> device,
+            integral<std::uint8_t, 1, 4> bank_slot,
+            integral<std::uint8_t, 1, 30> program_slot)
+        {
+        }
 
-    void encode_reverb_hall_output_level(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const integral<std::uint8_t, 0, 99, 99> data)
-    {
-    }
-
-    void encode_reverb_hall_program_name(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const std::array<char, 10>& data)
-    {
-    }
-
-    void encode_program(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        const program& data)
-    {
-    }
-
-    void decode_program(
-        std::vector<std::uint8_t>& encoded,
-        const integral<std::uint8_t, 0, 15> device,
-        program& data)
-    {
+        void encode_bank_request(
+            std::vector<std::uint8_t>& encoded,
+            const integral<std::uint8_t, 0, 15> device)
+        {
+        }
     }
 }
 }
