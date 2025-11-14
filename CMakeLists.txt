@@ -2,11 +2,15 @@ cmake_minimum_required(VERSION 3.25.0)
 project(midispec VERSION 0.0.1)
 
 option(MIDISPEC_BUILD_GTEST "Build midispec GTest testing executables" ON)
+option(MIDISPEC_BOUND_CHECK "Build midispec bounds checking" ON)
 
 file(GLOB_RECURSE midispec_source "source/*.cpp")
 add_library(midispec STATIC ${midispec_source})
 target_include_directories(midispec PUBLIC "include")
 set_target_properties(midispec PROPERTIES CXX_STANDARD 17)
+if(MIDISPEC_BOUND_CHECK)
+    target_compile_definitions(midispec PUBLIC -DMIDISPEC_BOUND_CHECK)
+endif()
 
 if(MIDISPEC_BUILD_GTEST)
     set(BUILD_SHARED_LIBS OFF)

@@ -37,11 +37,15 @@ struct integral {
 
     constexpr integral& operator=(const T value)
     {
+#if defined(MIDISPEC_BOUND_CHECK)
         if (value < MinValue || value > MaxValue) {
             throw std::out_of_range(std::string("Requires value in range, here MinValue=") + std::to_string(MinValue) + ", MaxValue=" + std::to_string(MaxValue) + ", Value=" + std::to_string(value));
         }
-
         _value = value;
+#else
+        _value = _clamp(value);
+
+#endif
         return *this;
     }
 
