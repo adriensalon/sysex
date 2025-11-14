@@ -5,6 +5,9 @@
 
 namespace midispec {
 
+static_assert(has_note_off_v<yamaha_tx81z, capability::receive>);
+static_assert(has_note_on_v<yamaha_tx81z, capability::receive>);
+
 // channel common
 
 void yamaha_tx81z::encode_note_off(

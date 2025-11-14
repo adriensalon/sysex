@@ -5,6 +5,9 @@
 
 namespace midispec {
 
+static_assert(has_note_off_v<akai_lpk25, capability::receive, capability::transmit>);
+static_assert(has_note_on_v<akai_lpk25, capability::receive, capability::transmit>);
+
 // channel common
 
 void akai_lpk25::encode_note_off(

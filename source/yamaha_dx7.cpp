@@ -5,6 +5,9 @@
 
 namespace midispec {
 
+static_assert(has_note_off_v<yamaha_dx7, capability::receive, capability::transmit>);
+static_assert(has_note_on_v<yamaha_dx7, capability::receive, capability::transmit>);
+
 namespace {
     static constexpr std::uint8_t SYSEX_START = 0xF0;
     static constexpr std::uint8_t SYSEX_END = 0xF7;

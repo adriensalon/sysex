@@ -4,6 +4,9 @@
 /// https://archive.org/details/SPX-90_owners_manual/page/n23/mode/2up
 
 namespace midispec {
+    
+static_assert(has_note_off_v<yamaha_spx90, capability::receive>);
+static_assert(has_note_on_v<yamaha_spx90, capability::receive>);
 
 // channel common
 

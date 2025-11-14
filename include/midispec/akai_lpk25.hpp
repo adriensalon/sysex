@@ -3,6 +3,7 @@
 #include <array>
 #include <vector>
 
+#include <midispec/core/capabilities.hpp>
 #include <midispec/core/integral.hpp>
 
 namespace midispec {
