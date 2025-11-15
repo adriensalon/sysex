@@ -13,7 +13,7 @@ static_assert(has_universal_inquiry_v<akai_mpx8, capability::request, capability
 // channel common
 
 namespace {
-    static constexpr std::uint8_t CHANNEL_MPX8 = 9;
+    static constexpr std::uint8_t CHANNEL_MPX8 = 0x09;
 }
 
 void akai_mpx8::encode_note_off(
