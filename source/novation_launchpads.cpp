@@ -207,12 +207,6 @@ bool novation_launchpads::decode_universal_inquiry(
     if (encoded[1] != 0x7E) {
         return false;
     }
-    if (encoded[3] != 0x06) {
-        return false;
-    }
-    if (encoded[4] != 0x02) {
-        return false;
-    }
     if (encoded.back() != SYSEX_END) {
         return false;
     }
@@ -223,30 +217,18 @@ bool novation_launchpads::decode_universal_inquiry(
     }
 
     device = encoded[2] & 0x7F;
-    std::size_t _index = 5;
+    std::size_t _index = 7;
 
-    if (encoded[_index] == 0x00) {
-        if (encoded.size() < _index + 3 + 2 + 2 + 4 + 1) {
-            return false;
-        }
-        manufacturer = (static_cast<std::uint32_t>(encoded[_index]) << 16) | (static_cast<std::uint32_t>(encoded[_index + 1]) << 8) | static_cast<std::uint32_t>(encoded[_index + 2]);
-        _index += 3;
+    manufacturer = (encoded[_index] << 16) | (encoded[_index + 1] << 8) | encoded[_index + 2];
+    _index += 3;
 
-    } else {
-        if (encoded.size() < _index + 1 + 2 + 2 + 4 + 1) {
-            return false;
-        }
-        manufacturer = static_cast<std::uint32_t>(encoded[_index]);
-        _index += 1;
-    }
-
-    family = static_cast<std::uint32_t>(encoded[_index] | (encoded[_index + 1] << 8));
+    family = encoded[_index] | (encoded[_index + 1] << 8);
     _index += 2;
 
-    model = static_cast<std::uint32_t>(encoded[_index] | (encoded[_index + 1] << 8));
+    model = encoded[_index] | (encoded[_index + 1] << 8);
     _index += 2;
 
-    version = (static_cast<std::uint32_t>(encoded[_index]) << 24) | (static_cast<std::uint32_t>(encoded[_index + 1]) << 16) | (static_cast<std::uint32_t>(encoded[_index + 2]) << 8) | static_cast<std::uint32_t>(encoded[_index + 3]);
+    version = (encoded[_index] << 24) | (encoded[_index + 1] << 16) | (encoded[_index + 2] << 8) | encoded[_index + 3];
     return true;
 }
 
