@@ -29,11 +29,6 @@ if(MIDISPEC_BUILD_GTEST)
     set_target_properties(midispec_gtest_akai_mpx8 PROPERTIES CXX_STANDARD 17)
     target_link_libraries(midispec_gtest_akai_mpx8 PRIVATE midispec)
 
-    # midispec_test [Korg microKORG]
-    # add_executable(midispec_gtest_korg_microkorg "test/gtest_korg_microkorg.cpp")
-    # set_target_properties(midispec_gtest_korg_microkorg PROPERTIES CXX_STANDARD 17)
-    # target_link_libraries(midispec_gtest_korg_microkorg PRIVATE midispec)
-
     # midispec_test [Yamaha DX7]
     add_executable(midispec_gtest_yamaha_dx7 "test/gtest_yamaha_dx7.cpp")
     set_target_properties(midispec_gtest_yamaha_dx7 PROPERTIES CXX_STANDARD 17)

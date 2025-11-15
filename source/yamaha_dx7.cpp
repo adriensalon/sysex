@@ -7,6 +7,9 @@ namespace midispec {
 
 static_assert(has_note_off_v<yamaha_dx7, capability::receive, capability::transmit>);
 static_assert(has_note_on_v<yamaha_dx7, capability::receive, capability::transmit>);
+static_assert(has_program_change_v<yamaha_dx7, capability::receive, capability::transmit>);
+static_assert(has_pitchbend_change_v<yamaha_dx7, capability::receive, capability::transmit>);
+static_assert(has_voice_patch_v<yamaha_dx7, capability::receive>);
 
 namespace {
     static constexpr std::uint8_t SYSEX_START = 0xF0;
@@ -149,6 +152,8 @@ namespace {
     }
 }
 
+// channel common
+
 void yamaha_dx7::encode_note_off(
     std::vector<std::uint8_t>& encoded,
     const integral<std::uint8_t, 0, 15> channel,
@@ -235,7 +240,7 @@ bool yamaha_dx7::decode_program_change(
     return true;
 }
 
-void yamaha_dx7::encode_pitchbend(
+void yamaha_dx7::encode_pitchbend_change(
     std::vector<std::uint8_t>& encoded,
     const integral<std::uint8_t, 0, 15> channel,
     const integral<std::uint16_t, 0, 16383, 8192> pitchbend)
@@ -245,7 +250,7 @@ void yamaha_dx7::encode_pitchbend(
     encoded.push_back(static_cast<std::uint8_t>((pitchbend.value() >> 7) & 0x7F));
 }
 
-bool yamaha_dx7::decode_pitchbend(
+bool yamaha_dx7::decode_pitchbend_change(
     const std::vector<std::uint8_t>& encoded,
     integral<std::uint8_t, 0, 15>& channel,
     integral<std::uint16_t, 0, 16383, 8192>& pitchbend)
@@ -280,6 +285,8 @@ bool yamaha_dx7::decode_channel_pressure(
 
     return true;
 }
+
+// system exclusive
 
 void yamaha_dx7::encode_op_envelope_generator_rate_1(
     std::vector<std::uint8_t>& encoded,
@@ -736,7 +743,7 @@ void yamaha_dx7::encode_breath_controller_assign(
     encode_sysex_parameter(encoded, device.value(), SYSEX_GROUP_FUNCTION, SYSEX_GLOBAL_BREATH_CONTROLLER_ASSIGN, data.value());
 }
 
-void yamaha_dx7::encode_after_touch_controller_range(
+void yamaha_dx7::encode_aftertouch_controller_range(
     std::vector<std::uint8_t>& encoded,
     const integral<std::uint8_t, 0, 15> device,
     const integral<std::uint8_t, 0, 99> data)
@@ -744,7 +751,7 @@ void yamaha_dx7::encode_after_touch_controller_range(
     encode_sysex_parameter(encoded, device.value(), SYSEX_GROUP_FUNCTION, SYSEX_GLOBAL_AFTER_TOUCH_RANGE, data.value());
 }
 
-void yamaha_dx7::encode_after_touch_controller_assign(
+void yamaha_dx7::encode_aftertouch_controller_assign(
     std::vector<std::uint8_t>& encoded,
     const integral<std::uint8_t, 0, 15> device,
     const integral<std::uint8_t, 0, 7> data)

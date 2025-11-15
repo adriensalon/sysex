@@ -7,6 +7,8 @@ namespace midispec {
 
 static_assert(has_note_off_v<akai_mpx8, capability::receive, capability::transmit>);
 static_assert(has_note_on_v<akai_mpx8, capability::receive, capability::transmit>);
+static_assert(has_note_aftertouch_v<akai_mpx8, capability::transmit>);
+static_assert(has_universal_inquiry_v<akai_mpx8, capability::request, capability::transmit>);
 
 // channel common
 

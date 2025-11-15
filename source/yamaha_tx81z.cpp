@@ -7,6 +7,12 @@ namespace midispec {
 
 static_assert(has_note_off_v<yamaha_tx81z, capability::receive>);
 static_assert(has_note_on_v<yamaha_tx81z, capability::receive>);
+static_assert(has_note_aftertouch_v<yamaha_tx81z, capability::receive>);
+static_assert(has_program_change_v<yamaha_tx81z, capability::receive>);
+static_assert(has_pitchbend_change_v<yamaha_tx81z, capability::receive>);
+static_assert(has_all_notes_off_v<yamaha_tx81z, capability::receive>);
+static_assert(has_active_sens_v<yamaha_tx81z, capability::receive>);
+static_assert(has_voice_patch_v<yamaha_tx81z, capability::receive, capability::request, capability::transmit>);
 
 // channel common
 
@@ -49,7 +55,7 @@ void yamaha_tx81z::encode_program_change(
     encoded.push_back(program.value() & 0x7F);
 }
 
-void yamaha_tx81z::encode_pitchbend(
+void yamaha_tx81z::encode_pitchbend_change(
     std::vector<std::uint8_t>& encoded,
     const integral<std::uint8_t, 0, 15> channel,
     const integral<std::uint16_t, 0, 16383, 8192> pitchbend)
@@ -163,7 +169,7 @@ namespace {
 
     static constexpr std::uint8_t SYSEX_VCED_SIZE = 0x005D;
 
-    static std::uint8_t checksum7(const std::uint8_t* data, const std::size_t length)
+    static std::uint8_t compute_sysex_checksum(const std::uint8_t* data, const std::size_t length)
     {
         std::uint32_t _sum = 0;
         for (std::size_t _index = 0; _index < length; ++_index) {
@@ -183,12 +189,12 @@ namespace {
         encoded.push_back(static_cast<std::uint8_t>((size) & 0x7F));
     }
 
-    static void sysex_close(std::vector<uint8_t>& encoded, size_t data_start_index)
+    static void sysex_close(std::vector<uint8_t>& encoded, const std::size_t data_start_index)
     {
         const std::uint8_t* _data_ptr = encoded.data() + data_start_index;
         const std::size_t _data_size = encoded.size() - data_start_index;
-        encoded.push_back(checksum7(_data_ptr, _data_size));
-        encoded.push_back(0xF7);
+        encoded.push_back(compute_sysex_checksum(_data_ptr, _data_size));
+        encoded.push_back(SYSEX_END);
     }
 }
 

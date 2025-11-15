@@ -7,6 +7,7 @@ namespace midispec {
     
 static_assert(has_note_off_v<yamaha_spx90, capability::receive>);
 static_assert(has_note_on_v<yamaha_spx90, capability::receive>);
+static_assert(has_program_change_v<yamaha_spx90, capability::receive>);
 
 // channel common
 
@@ -47,7 +48,7 @@ namespace {
     static constexpr std::uint8_t SYSEX_END = 0xF7;
     static constexpr std::uint8_t SYSEX_YAMAHA = 0x43;
 
-    static std::uint8_t checksum7(const std::uint8_t* p, std::size_t len)
+    static std::uint8_t compute_sysex_checksum(const std::uint8_t* p, std::size_t len)
     {
         std::uint32_t sum = 0;
         for (std::size_t i = 0; i < len; ++i) {
@@ -123,7 +124,7 @@ void yamaha_spx90::encode_program_patch_bank_request(
 
 //     // NEED ACCESS TO REAL DATA TO IMPLEMENT
 
-//     if ((encoded[94] & 0x7F) != checksum7(&encoded[4], (encoded.size() - 1 /*F7*/ - 1 /*CS*/) - 4)) {
+//     if ((encoded[94] & 0x7F) != compute_sysex_checksum(&encoded[4], (encoded.size() - 1 /*F7*/ - 1 /*CS*/) - 4)) {
 //         std::cerr << "Invalid SysEx frame checksum" << std::endl;
 //         return false;
 //     }

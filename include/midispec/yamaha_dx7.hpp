@@ -126,7 +126,7 @@ struct yamaha_dx7 {
     /// @param encoded Vector to append the encoded message to
     /// @param channel Target channel number. In range [0, 15]
     /// @param pitchbend MIDI pitchbend. In range [0, 16383] (Default 8192)
-    static void encode_pitchbend(
+    static void encode_pitchbend_change(
         std::vector<std::uint8_t>& encoded,
         const integral<std::uint8_t, 0, 15> channel,
         const integral<std::uint16_t, 0, 16383, 8192> pitchbend);
@@ -136,7 +136,7 @@ struct yamaha_dx7 {
     /// @param channel Target channel number. In range [0, 15]
     /// @param pitchbend MIDI pitchbend. In range [0, 16383] (Default 8192)
     /// @return true on success
-    static bool decode_pitchbend(
+    static bool decode_pitchbend_change(
         const std::vector<std::uint8_t>& encoded,
         integral<std::uint8_t, 0, 15>& channel,
         integral<std::uint16_t, 0, 16383, 8192>& pitchbend);
@@ -730,20 +730,20 @@ struct yamaha_dx7 {
         const integral<std::uint8_t, 0, 15> device,
         const integral<std::uint8_t, 0, 7> data);
 
-    /// @brief Encodes after touch range parameter change message
+    /// @brief Encodes aftertouch range parameter change message
     /// @param encoded Vector to append the encoded SysEx message to
     /// @param device Target device number. In range [0, 15]
-    /// @param data After touch controller range. In range [0, 99]
-    static void encode_after_touch_controller_range(
+    /// @param data Aftertouch controller range. In range [0, 99]
+    static void encode_aftertouch_controller_range(
         std::vector<std::uint8_t>& encoded,
         const integral<std::uint8_t, 0, 15> device,
         const integral<std::uint8_t, 0, 99> data);
 
-    /// @brief Encodes after touch assign parameter change message
+    /// @brief Encodes aftertouch assign parameter change message
     /// @param encoded Vector to append the encoded SysEx message to
     /// @param device Target device number. In range [0, 15]
-    /// @param data After touch assign. In range [0, 7]
-    static void encode_after_touch_controller_assign(
+    /// @param data Aftertouch assign. In range [0, 7]
+    static void encode_aftertouch_controller_assign(
         std::vector<std::uint8_t>& encoded,
         const integral<std::uint8_t, 0, 15> device,
         const integral<std::uint8_t, 0, 7> data);

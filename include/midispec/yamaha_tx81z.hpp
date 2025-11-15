@@ -158,7 +158,7 @@ struct yamaha_tx81z {
     /// @param encoded Vector to append the encoded message to
     /// @param channel Target channel number. In range [0, 15]
     /// @param pitchbend MIDI pitch bend. In range [0, 16383] (Default 8192)
-    static void encode_pitchbend(
+    static void encode_pitchbend_change(
         std::vector<std::uint8_t>& encoded,
         const integral<std::uint8_t, 0, 15> channel,
         const integral<std::uint16_t, 0, 16383, 8192> pitchbend);

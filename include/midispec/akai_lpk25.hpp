@@ -64,7 +64,7 @@ struct akai_lpk25 {
     /// @brief Encodes a song position pointer message
     /// @param encoded Vector to append the encoded message to
     /// @param data MIDI song position pointer. In range [0, 16383]
-    static void encode_song_position_pointer(
+    static void encode_song_position(
         std::vector<std::uint8_t>& encoded,
         const integral<std::uint16_t, 0, 16383> data);
 

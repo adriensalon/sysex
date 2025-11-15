@@ -7,6 +7,10 @@ namespace midispec {
 
 static_assert(has_note_off_v<akai_lpk25, capability::receive, capability::transmit>);
 static_assert(has_note_on_v<akai_lpk25, capability::receive, capability::transmit>);
+static_assert(has_clock_v<akai_lpk25, capability::receive>);
+static_assert(has_song_position_v<akai_lpk25, capability::receive>);
+static_assert(has_continue_v<akai_lpk25, capability::receive>);
+static_assert(has_reset_v<akai_lpk25, capability::transmit>);
 
 // channel common
 
@@ -75,7 +79,7 @@ void akai_lpk25::encode_clock(std::vector<std::uint8_t>& encoded)
     encoded.push_back(0xF8);
 }
 
-void akai_lpk25::encode_song_position_pointer(
+void akai_lpk25::encode_song_position(
     std::vector<std::uint8_t>& encoded,
     const integral<std::uint16_t, 0, 16383> data)
 {
